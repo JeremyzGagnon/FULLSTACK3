@@ -1,3 +1,4 @@
+//Logique du formulaire pour la mettre à jour les agents
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 
@@ -53,7 +54,7 @@ export default function Edit() {
     };
 
     // This will send a post request to update the data in the database.
-    await fetch(`http://localhost:5000/update/${params.id}`, {
+    await fetch(`http://localhost:5000/update/${params.id}`, {//cal the update route
       method: "POST",
       body: JSON.stringify(editedPerson),
       headers: {
@@ -64,6 +65,8 @@ export default function Edit() {
     navigate("/");
   }
 
+
+  //FORM
   // This following section will display the form that takes input from the user to update the data.
   return (
     <div>
@@ -140,3 +143,4 @@ export default function Edit() {
     </div>
   );
 }
+// /FORM

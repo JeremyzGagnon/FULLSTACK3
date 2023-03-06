@@ -1,13 +1,13 @@
-const express = require("express");
-const app = express();
+const express = require("express");//import express
+const app = express();//create an express instance
 const cors = require("cors");
-require("dotenv").config({ path: "./config.env" });
-const port = process.env.PORT || 5000;
-app.use(cors());
-app.use(express.json());
-app.use(require("./routes/record"));
+require("dotenv").config({ path: "./config.env" });//imports the config.env file
+const port = process.env.PORT || 5000;//set port num
+app.use(cors());//resolve the cors problem
+app.use(express.json());//convert the client request to json format
+app.use(require("./routes/record"));//use our routes file
 // get driver connection
-const dbo = require("./db/conn");
+const dbo = require("./db/conn");//import db conn.js
 
 app.listen(port, () => {
   // perform a database connection when server starts

@@ -9,7 +9,7 @@ Create an Atlas URI connection parameter in `mern/server/config.env` with your A
 ATLAS_URI=mongodb+srv://jeremyzgagnon:sonic95@cluster0.4gwuftx.mongodb.net/test
 PORT=5000
 ```
-
+//Pour utiliser notre application
 Start server:
 ```
 cd mern/server

@@ -1,19 +1,22 @@
-const express = require("express");
+//This is the file to add,update, delete, find employees in our db
 
-// recordRoutes is an instance of the express router.
+const express = require("express");//import express
+
+// recordRoutes is an instance(object) of the express router.
 // We use it to define our routes.
-// The router will be added as a middleware and will take control of requests starting with path /record.
+// The router will be added as a middleware and will take control of requests starting with path /record.//(take control of requests)
 const recordRoutes = express.Router();
 
 // This will help us connect to the database
 const dbo = require("../db/conn");
 
 // This help convert the id from string to ObjectId for the _id.
-const ObjectId = require("mongodb").ObjectId;
+const ObjectId = require("mongodb").ObjectId; //imports the id string converter of mongodb
 
+// Our route
 
 // This section will help you get a list of all the records.
-recordRoutes.route("/record").get(function (req, res) {
+recordRoutes.route("/record").get(function (req, res) {//list everyone
   let db_connect = dbo.getDb("employees");
   db_connect
     .collection("records")
@@ -27,7 +30,7 @@ recordRoutes.route("/record").get(function (req, res) {
 // This section will help you get a single record by id
 recordRoutes.route("/record/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId( req.params.id )};
+  let myquery = { _id: ObjectId( req.params.id )};//convert the id submitted by the client to a MongoDB ObjectId
   db_connect
       .collection("records")
       .findOne(myquery, function (err, result) {
@@ -46,7 +49,7 @@ recordRoutes.route("/record/add").post(function (req, response) {
   };
   db_connect.collection("records").insertOne(myobj, function (err, res) {
     if (err) throw err;
-    response.json(res);
+    response.json(res);//si la promesse est résolue réponds avec le document ajouter à la db
   });
 });
 
@@ -64,8 +67,8 @@ recordRoutes.route("/update/:id").post(function (req, response) {
   db_connect
     .collection("records")
     .updateOne(myquery, newvalues, function (err, res) {
-      if (err) throw err;
-      console.log("1 document updated");
+      if (err) throw err;//if the update is unsuccessfull
+      console.log("1 document updated");//if the promise of update is successfull
       response.json(res);
     });
 });

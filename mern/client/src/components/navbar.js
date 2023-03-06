@@ -1,3 +1,5 @@
+//Barre de navigation
+
 import React from "react";
 
 // We import bootstrap to make our application look better.
