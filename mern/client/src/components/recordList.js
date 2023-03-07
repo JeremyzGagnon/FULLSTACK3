@@ -11,6 +11,8 @@ const Record = (props) => (
     <td>{props.record.region}</td>
     <td>{props.record.fee}</td>
     <td>{props.record.sales}</td>
+    <td>{props.record.manager}</td>
+
 
     <td>
       <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
@@ -84,7 +86,7 @@ export default function RecordList() {
             <th>Region</th>
             <th>Fee</th>
             <th>Sales</th>
-
+            <th>Role</th>
           </tr>
         </thead>
         <tbody>{recordList()}</tbody>
