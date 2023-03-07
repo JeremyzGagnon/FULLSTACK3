@@ -47,6 +47,7 @@ recordRoutes.route("/record/add").post(function (req, response) {
     last_name: req.body.last_name,
     email: req.body.email,
     region: req.body.region,
+      rating:req.body.rating,
     fee: req.body.fee,
     sales: req.body.sales,
     manager: req.body.manager
@@ -71,6 +72,7 @@ recordRoutes.route("/update/:id").post(function (req, response) {
       last_name: req.body.last_name,
       email: req.body.email,
       region: req.body.region,
+      rating:req.body.rating,
       fee: req.body.fee,
       sales: req.body.sales,
       manager: req.body.manager  
