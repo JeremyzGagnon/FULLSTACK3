@@ -57,14 +57,9 @@ export default function Edit() {
   async function onSubmit(e) {
     e.preventDefault();
     const editedPerson = {
-      first_name: form.first_name,
-      last_name: form.last_name,
-      email: form.email,
-      region: form.region,
-      rating: form.rating,
-      fee: form.fee,
-      sales: form.sales,
-      manager: form.manager,
+      name: form.name,
+      position: form.position,
+      level: form.level,
     };
 
     // This will send a post request to update the data in the database.

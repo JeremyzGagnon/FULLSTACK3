@@ -99,6 +99,7 @@ export default function Create() {
             />
             <label htmlFor="regionNorth" className="form-check-label">North</label>
           </div>
+          
           <div className="form-check form-check-inline"> 
             <input
               className="form-check-input"
@@ -179,6 +180,7 @@ export default function Create() {
             <option value={true}>Manager</option>
             </select>
         </div>
+        
         <div className="form-group">
           <input
             type="submit"

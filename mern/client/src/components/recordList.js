@@ -9,9 +9,10 @@ const Record = (props) => (
     <td>{props.record.last_name}</td>
     <td>{props.record.email}</td>
     <td>{props.record.region}</td>
+    <td>{props.record.rating}</td>
     <td>{props.record.fee}</td>
     <td>{props.record.sales}</td>
-    <td>{props.record.manager}</td>
+    <td>{props.record.manager ? "Manager" : "Employee"}</td>
 
 
     <td>
@@ -84,6 +85,7 @@ export default function RecordList() {
             <th>Last Name</th>
             <th>Email</th>
             <th>Region</th>
+            <th>Rating</th>
             <th>Fee</th>
             <th>Sales</th>
             <th>Role</th>
