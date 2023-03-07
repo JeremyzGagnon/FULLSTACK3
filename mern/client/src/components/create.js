@@ -4,9 +4,13 @@ import { useNavigate } from "react-router";
 
 export default function Create() {
   const [form, setForm] = useState({//to store the values of the form input fields
-    name: "",
-    position: "",
-    level: "",
+    first_name: "",
+    last_name: "",
+    email: "",
+    region: "",
+    rating: "",
+    fee: "",
+    sales: ""
   });
   const navigate = useNavigate();
 
@@ -36,7 +40,7 @@ export default function Create() {
       return;
     });
 
-    setForm({ name: "", position: "", level: "" });
+    setForm({first_name: "",last_name: "",email: "",region: "",rating: "",fee: "",sales: ""});
     navigate("/");
   }
 //Display the form
@@ -46,65 +50,121 @@ export default function Create() {
       <h3>Create New Record</h3>
       <form onSubmit={onSubmit}>
         <div className="form-group">
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">First Name</label>
           <input
             type="text"
             className="form-control"
-            id="name"
-            value={form.name}
-            onChange={(e) => updateForm({ name: e.target.value })}//calls the function updateForm to update the corresponding state variable
+            id="first_name"
+            value={form.first_name}
+            onChange={(e) => updateForm({ first_name: e.target.value })}//calls the function updateForm to update the corresponding state variable
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="position">Position</label>
+          <label htmlFor="name">Last Name</label>
           <input
             type="text"
             className="form-control"
-            id="position"
-            value={form.position}
-            onChange={(e) => updateForm({ position: e.target.value })}
+            id="last_name"
+            value={form.last_name}
+            onChange={(e) => updateForm({ last_name: e.target.value })}//calls the function updateForm to update the corresponding state variable
           />
         </div>
+
+
         <div className="form-group">
-          {/*Radio button for position  */}
+          <label htmlFor="email">Email</label>
+          <input
+            type="text"
+            className="form-control"
+            id="email"
+            value={form.email}
+            onChange={(e) => updateForm({ email: e.target.value })}
+          />
+        </div>
+
+        <div className="form-group">
+          {/*Radio button for region  */}
 
           <div className="form-check form-check-inline">
             <input
               className="form-check-input"
               type="radio"
-              name="positionOptions"
-              id="positionIntern"
-              value="Intern"
-              checked={form.level === "Intern"}
-              onChange={(e) => updateForm({ level: e.target.value })}
+              name="regionOptions"
+              id="regionNorth"
+              value="North"
+              checked={form.region === "North"}
+              onChange={(e) => updateForm({ region: e.target.value })}
             />
-            <label htmlFor="positionIntern" className="form-check-label">Intern</label>
+            <label htmlFor="regionNorth" className="form-check-label">North</label>
           </div>
           <div className="form-check form-check-inline"> 
             <input
               className="form-check-input"
               type="radio"
-              name="positionOptions"
-              id="positionJunior"
-              value="Junior"
-              checked={form.level === "Junior"}
-              onChange={(e) => updateForm({ level: e.target.value })}
+              name="regionOptions"
+              id="regionSouth"
+              value="South"
+              checked={form.region === "South"}
+              onChange={(e) => updateForm({ region: e.target.value })}
             />
-            <label htmlFor="positionJunior" className="form-check-label">Junior</label>
+            <label htmlFor="regionSouth" className="form-check-label">South</label>
           </div>
+          <div className="form-check form-check-inline"> 
+            <input
+              className="form-check-input"
+              type="radio"
+              name="regionOptions"
+              id="regionWest"
+              value="West"
+              checked={form.region === "West"}
+              onChange={(e) => updateForm({ region: e.target.value })}
+            />
+            <label htmlFor="regionWest" className="form-check-label">West</label>
+          </div>
+
           <div className="form-check form-check-inline">
             <input
               className="form-check-input"
               type="radio"
-              name="positionOptions"
-              id="positionSenior"
-              value="Senior"
-              checked={form.level === "Senior"}
-              onChange={(e) => updateForm({ level: e.target.value })}
+              name="regionOptions"
+              id="regionEast"
+              value="East"
+              checked={form.region === "East"}
+              onChange={(e) => updateForm({ region: e.target.value })}
             />
-            <label htmlFor="positionSenior" className="form-check-label">Senior</label>
+            <label htmlFor="regionEast" className="form-check-label">East</label>
           </div>
+        </div>
+        <div className="form-group">
+          <label htmlFor="rating">Rating</label>
+          <input
+            type="text"
+            className="form-control"
+            id="rating"
+            value={form.rating}
+            onChange={(e) => updateForm({ rating: e.target.value })}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="fee">Fee</label>
+          <input
+            type="text"
+            className="form-control"
+            id="fee"
+            value={form.fee}
+            onChange={(e) => updateForm({ fee: e.target.value })}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="sales">Sales</label>
+          <input
+            type="text"
+            className="form-control"
+            id="sales"
+            value={form.sales}
+            onChange={(e) => updateForm({ sales: e.target.value })}
+          />
         </div>
         <div className="form-group">
           <input
