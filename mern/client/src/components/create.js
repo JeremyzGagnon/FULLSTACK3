@@ -10,7 +10,8 @@ export default function Create() {
     region: "",
     rating: "",
     fee: "",
-    sales: ""
+    sales: "",
+    manager: false
   });
   const navigate = useNavigate();
 
@@ -40,7 +41,7 @@ export default function Create() {
       return;
     });
 
-    setForm({first_name: "",last_name: "",email: "",region: "",rating: "",fee: "",sales: ""});
+    setForm({first_name: "",last_name: "",email: "",region: "",rating: "",fee: "",sales: "", manager: ""});
     navigate("/");
   }
 //Display the form
@@ -92,8 +93,8 @@ export default function Create() {
               type="radio"
               name="regionOptions"
               id="regionNorth"
-              value="North"
-              checked={form.region === "North"}
+              value="north"
+              checked={form.region === "north"}
               onChange={(e) => updateForm({ region: e.target.value })}
             />
             <label htmlFor="regionNorth" className="form-check-label">North</label>
@@ -104,8 +105,8 @@ export default function Create() {
               type="radio"
               name="regionOptions"
               id="regionSouth"
-              value="South"
-              checked={form.region === "South"}
+              value="south"
+              checked={form.region === "south"}
               onChange={(e) => updateForm({ region: e.target.value })}
             />
             <label htmlFor="regionSouth" className="form-check-label">South</label>
@@ -116,8 +117,8 @@ export default function Create() {
               type="radio"
               name="regionOptions"
               id="regionWest"
-              value="West"
-              checked={form.region === "West"}
+              value="west"
+              checked={form.region === "west"}
               onChange={(e) => updateForm({ region: e.target.value })}
             />
             <label htmlFor="regionWest" className="form-check-label">West</label>
@@ -129,8 +130,8 @@ export default function Create() {
               type="radio"
               name="regionOptions"
               id="regionEast"
-              value="East"
-              checked={form.region === "East"}
+              value="east"
+              checked={form.region === "east"}
               onChange={(e) => updateForm({ region: e.target.value })}
             />
             <label htmlFor="regionEast" className="form-check-label">East</label>
@@ -143,7 +144,7 @@ export default function Create() {
             className="form-control"
             id="rating"
             value={form.rating}
-            onChange={(e) => updateForm({ rating: e.target.value })}
+            onChange={(e) => updateForm({ rating: parseInt(e.target.value) })}
           />
         </div>
         <div className="form-group">
@@ -153,7 +154,7 @@ export default function Create() {
             className="form-control"
             id="fee"
             value={form.fee}
-            onChange={(e) => updateForm({ fee: e.target.value })}
+            onChange={(e) => updateForm({ fee: parseInt(e.target.value) })}
           />
         </div>
         <div className="form-group">
@@ -163,8 +164,20 @@ export default function Create() {
             className="form-control"
             id="sales"
             value={form.sales}
-            onChange={(e) => updateForm({ sales: e.target.value })}
+            onChange={(e) => updateForm({ sales: parseInt(e.target.value) })}
           />
+        </div>
+        <div className="form-group">
+          <label htmlFor="manager">Manager</label>
+          <select
+            type="text"
+            className="form-control"
+            id="manager"
+            value={form.manager}
+            onChange={(e) => updateForm({ manager: (e.target.value) === 'true' })}>
+            <option value={false}>Employee</option>
+            <option value={true}>Manager</option>
+            </select>
         </div>
         <div className="form-group">
           <input
