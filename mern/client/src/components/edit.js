@@ -10,12 +10,12 @@ export default function Edit() {
     region: "",
     rating: "",
     fee: "",
-    sales: ""
+    sales: "",
 
     // name: "",
     // position: "",
     // level: "",
-    // records: [],
+    records: [],
   });
   const params = useParams();
   const navigate = useNavigate();

@@ -62,7 +62,13 @@ recordRoutes.route("/update/:id").post(function (req, response) {
       // name: req.body.name,
       // position: req.body.position,
       // level: req.body.level,
-      
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      email: req.body.email,
+      region: req.body.region,
+      fee: req.body.fee,
+      sales: req.body.sales,
+
     },
   };
   db_connect
