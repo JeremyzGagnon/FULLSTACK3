@@ -61,6 +61,7 @@ export default function Edit() {
       last_name: form.last_name,
       email: form.email,
       region: form.region,
+      rating: form.rating,
       fee: form.fee,
       sales: form.sales,
       manager: form.manager,
