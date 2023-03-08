@@ -12,4 +12,5 @@ ReactDOM.render(//render(JSX, DOM element) is a function to render the React app
   </React.StrictMode>,
   document.getElementById("root")//DOM element
 );
-//React.StrictMode is used to activate additional checks and warnings for potential problems in the application.
+//React.StrictMode is used to activate additional checks and warnings for potential problems in the application.\
+// uhqbefhbqehorgjegijnewjjbnvijorwb 
