@@ -8,67 +8,55 @@ export default function Edit() {
     last_name: "",
     email: "",
     region: "",
-    rating: "",
-    fee: "",
-    sales: "",
-    manager: false
-
-    // name: "",
-    // position: "",
-    // level: "",
-    // records: [],
+    password: ""
   });
   const params = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function fetchData() {
-      const id = params.id.toString();
-      const response = await fetch(`http://localhost:5000/record/${params.id.toString()}`);
+//   useEffect(() => {
+//     async function fetchData() {
+//       const id = params.id.toString();
+//       const response = await fetch(`http://localhost:5000/login`);
 
-      if (!response.ok) {
-        const message = `An error has occured: ${response.statusText}`;
-        window.alert(message);
-        return;
-      }
+//       if (!response.ok) {
+//         const message = `An error has occured: ${response.statusText}`;
+//         window.alert(message);
+//         return;
+//       }
 
-      const record = await response.json();
-      if (!record) {
-        window.alert(`Record with id ${id} not found`);
-        navigate("/");
-        return;
-      }
+//       const record = await response.json();
+//       if (!record) {
+//         window.alert(`Record with id ${id} not found`);
+//         navigate("/");
+//         return;
+//       }
 
-      setForm(record);
-    }
+//       setForm(record);
+//     }
 
-    fetchData();
+//     fetchData();
 
-    return;
-  }, [params.id, navigate]);
+//     return;
+//   }, [params.id, navigate]);
 
   // These methods will update the state properties.
-  function updateForm(value) {
-    return setForm((prev) => {
-      return { ...prev, ...value };
-    });
-  }
+  // function updateForm(value) {
+  //   return setForm((prev) => {
+  //     return { ...prev, ...value };
+  //   });
+  // }
 
-  async function onSubmit(e) {
-    e.preventDefault();
-    const editedPerson = {
-      first_name: form.first_name,
-      last_name: form.last_name,
-      email: form.email,
-      region: form.region,
-      rating: form.rating,
-      fee: form.fee,
-      sales: form.sales,
-      manager: form.manager,
-    };
+  // async function onSubmit(e) {
+  //   e.preventDefault();
+  //   const editedPerson = {
+  //     first_name: form.first_name,
+  //     last_name: form.last_name,
+  //     email: form.email,
+  //     password: form.password,
+  //   };
 
     // This will send a post request to update the data in the database.
-    await fetch(`http://localhost:5000/update/${params.id}`, {//cal the update route
+    await fetch(`http://localhost:5000/login`, {//cal the update route
       method: "POST",
       body: JSON.stringify(editedPerson),
       headers: {
