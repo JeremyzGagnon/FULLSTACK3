@@ -15,6 +15,22 @@ const ObjectId = require("mongodb").ObjectId; //imports the id string converter 
 
 // Our route
 
+recordRoutes.route("/login").post(async function  (req, response) {
+  let db_connect = dbo.getDb();
+  const {email,password} = req.body;
+  const users = await db_connect.collection("Utilisateurs").findOne({"email":email});
+
+  if (!users) {
+    return response.status(400).json({ message: "invalid email or password"})
+  }
+
+  if(password !== users.password){
+    return response.json(false)
+  }
+
+  response.json(true)
+});
+
 // This section will help you get a list of all the records.
 recordRoutes.route("/record").get(function (req, res) {//list everyone
   let db_connect = dbo.getDb("employees");
@@ -47,13 +63,10 @@ recordRoutes.route("/record/add").post(function (req, response) {
     last_name: req.body.last_name,
     email: req.body.email,
     region: req.body.region,
-      rating:req.body.rating,
+    rating:req.body.rating,
     fee: req.body.fee,
     sales: req.body.sales,
     manager: req.body.manager
-    // name: req.body.name,
-    // position: req.body.position,
-    // level: req.body.level,
 
   };
   db_connect.collection("records").insertOne(myobj, function (err, res) {
@@ -76,9 +89,6 @@ recordRoutes.route("/update/:id").post(function (req, response) {
       fee: req.body.fee,
       sales: req.body.sales,
       manager: req.body.manager  
-      // name: req.body.name,
-      // position: req.body.position,
-      // level: req.body.level,
     },
   };
   db_connect

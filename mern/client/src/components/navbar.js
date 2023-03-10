@@ -1,5 +1,3 @@
-//Barre de navigation
-
 import React from "react";
 
 // We import bootstrap to make our application look better.
@@ -10,12 +8,20 @@ import { NavLink } from "react-router-dom";
 
 // Here, we display our Navbar
 export default function Navbar() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <NavLink className="navbar-brand" to="/">
-        <img style={{"width" : 25 + '%'}} src=""></img>
+        {isLoggedIn ? (
+          <NavLink className="navbar-brand" to="/">
+          <img style={{"width" : 50 + '%'}} src="../../R2Mongo.png"alt="..."></img>
+          </NavLink>
+        ) : (
+          <NavLink className="navbar-brand" to="#">
+        <img style={{"width" : 50 + '%'}} src="../../R2Mongo.png"alt="..."></img>
         </NavLink>
+        )}
+        
         <button
           className="navbar-toggler"
           type="button"
@@ -31,13 +37,16 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <NavLink className="nav-link" to="/create">
-                Create Record
+            {isLoggedIn ? (
+               <NavLink className="nav-link" to="/create">
+               Create Agent
+             </NavLink>
+            ) : (
+              <NavLink className="nav-link" to="#">
+                Create Agent
               </NavLink>
-              <NavLink className="nav-link" to="/login">
-                Login
-              </NavLink>
-
+            )}
+             
             </li>
           </ul>
         </div>
