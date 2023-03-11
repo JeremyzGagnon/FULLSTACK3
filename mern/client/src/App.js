@@ -9,7 +9,6 @@ import RecordList from "./components/recordList";
 import Edit from "./components/edit";
 import Create from "./components/create";
 import Login from "./components/login";
-import NotAuthorized from "./components/notAUthorized";
 
 const App = () => {
   // const [isLoggedIn,setIsLoggedIn]=useState("false")
@@ -35,7 +34,6 @@ useEffect(() => {
         <Route path="/edit/:id" element={<Edit />} />
         <Route path="/create" element={<Create />} />
         <Route path="/login" element={<Login />} />
-        <Route path="*" element={<NotAuthorized />} />
         
       </Routes>
       </div>

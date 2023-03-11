@@ -14,7 +14,7 @@ export default function Navbar() {
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         {isLoggedIn ? (
           <NavLink className="navbar-brand" to="/">
-          <img style={{"width" : 50 + '%'}} src="../../R2Mongo.png"alt="..."></img>
+          <img src="../../R2Mongo.png"alt="..."></img>
           </NavLink>
         ) : (
           <NavLink className="navbar-brand" to="#">

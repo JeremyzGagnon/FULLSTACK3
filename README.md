@@ -78,4 +78,4 @@ MERN est est un choix populaire pour son évolutivité, son code modulaire et r�
 
 2:https://github.com/kmaryam27/Employee-Management-System
 
-Ceci sont d'autres example de projet utiliser pour la gestion des employées.
+Ceci sont d'autres examples de projet utiliser pour la gestion des employées.
