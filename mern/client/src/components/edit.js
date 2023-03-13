@@ -12,18 +12,16 @@ export default function Edit() {
     fee: "",
     sales: "",
     manager: false
-
-    // name: "",
-    // position: "",
-    // level: "",
-    // records: [],
   });
   const params = useParams();
   const navigate = useNavigate();
+  // console.log(params.id);
+
 
   useEffect(() => {
     async function fetchData() {
       const id = params.id.toString();
+      // console.log(id)
       const response = await fetch(`http://localhost:5000/record/${params.id.toString()}`);
 
       if (!response.ok) {

@@ -9,6 +9,8 @@ import RecordList from "./components/recordList";
 import Edit from "./components/edit";
 import Create from "./components/create";
 import Login from "./components/login";
+import AddTransaction from "./components/addTransaction";
+import Transaction from "./components/transaction";
 
 const App = () => {
   // const [isLoggedIn,setIsLoggedIn]=useState("false")
@@ -20,6 +22,7 @@ useEffect(() => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
   console.log('isLoggedIn', isLoggedIn);
   if (isLoggedIn !== "true") {
+    
     navigate("/login");
   }
 }, []);
@@ -34,6 +37,9 @@ useEffect(() => {
         <Route path="/edit/:id" element={<Edit />} />
         <Route path="/create" element={<Create />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/transaction/:id" element={<Transaction />} />
+        <Route path="/add-transactions/:id" element={<AddTransaction />} />
+
         
       </Routes>
       </div>

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
 
 const Record = (props) => (
   <tr>
@@ -23,7 +24,9 @@ const Record = (props) => (
         }}
       >
         Delete
-      </button>
+      </button> |
+      <Link className="btn btn-link" to={`/transaction/${props.record._id}`}>Transactions</Link>
+
     </td>
   </tr>
 );
@@ -61,14 +64,17 @@ export default function RecordList() {
 
   // This method will delete a record
   async function deleteRecord(id) {
-    await fetch(`http://localhost:5000/${id}`, {
-      method: "DELETE"
-    });
-
-    const newRecords = records.filter((el) => el._id !== id);
-    setRecords(newRecords);
+    const confirmDelete = window.confirm("Are you sure you want to delete this record?");
+    if (confirmDelete) {
+      await fetch(`http://localhost:5000/${id}`, {
+        method: "DELETE"
+      });
+  
+      const newRecords = records.filter((el) => el._id !== id);
+      setRecords(newRecords);
+    }
   }
-
+  
   // This method will map out the records on the table
   function recordList() {
     return records.map((record) => {
@@ -86,8 +92,9 @@ export default function RecordList() {
   return (
     <div>
       <h3>Record List</h3>
+      <Button onClick={logout} variant="primary">Logout</Button>{' '}
+
       <table className="table table-striped" style={{ marginTop: 20 }}>
-      <button onClick={logout}>logout</button>
 
         <thead>
           <tr>

@@ -46,6 +46,10 @@ export default function Navbar() {
                 Create Agent
               </NavLink>
             )}
+
+              {/* <NavLink className="nav-link" to="/transaction">
+                Transaction
+              </NavLink> */}
              
             </li>
           </ul>
