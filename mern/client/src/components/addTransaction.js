@@ -39,7 +39,7 @@ export default function AddTransaction() {
     });
 
     setForm({moneyAmount: "",});
-    navigate("/");
+    navigate(`/transaction-data/${params.id}`);
   }
 //Display the form
   return (

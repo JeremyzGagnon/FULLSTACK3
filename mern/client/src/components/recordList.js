@@ -55,11 +55,16 @@ export default function RecordList() {
     return; 
   }, [records.length]);
 
+  // const logout = () => {
+  //   localStorage.removeItem("isLoggedIn");
+  //   navigate("/login");
+  // };
+
   const logout = () => {
-    localStorage.removeItem("isLoggedIn");
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     navigate("/login");
   };
-
+  
 
 
   // This method will delete a record

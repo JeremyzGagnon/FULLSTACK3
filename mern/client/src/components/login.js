@@ -33,21 +33,6 @@ function Login() {
       redirect: 'follow'
     };
 
-  //   fetch("http://localhost:5000/login", requestOptions)
-  //     .then(response => response.text())//api return a reponse object
-  //     .then(result => {
-  //       console.log(result)
-  //       localStorage.setItem("isLoggedIn", result);
-  //       if(result === "true"){
-  //         setShowAlert(true);
-  //         navigate("/");
-  //       } else {
-  //         setemailError("Invalid email or password");
-  //         window.alert("Invalid email or password");
-  //       }
-  //     })
-  //     .catch(error => console.log('error', error));
-  // }
 
   fetch("http://localhost:5000/login", requestOptions)
   .then(response => response.json())

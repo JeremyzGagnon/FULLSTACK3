@@ -17,15 +17,15 @@ const App = () => {
   
   const navigate = useNavigate();
 
-useEffect(() => {
-  // Checking if user is not loggedIn
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
-  console.log('isLoggedIn', isLoggedIn);
-  if (isLoggedIn !== "true") {
+// useEffect(() => {
+//   // Checking if user is not loggedIn
+//   const isLoggedIn = localStorage.getItem("isLoggedIn");
+//   console.log('isLoggedIn', isLoggedIn);
+//   if (isLoggedIn !== "true") {
     
-    navigate("/login");
-  }
-}, []);
+//     navigate("/login");
+//   }
+// }, []);
 
 
   return (

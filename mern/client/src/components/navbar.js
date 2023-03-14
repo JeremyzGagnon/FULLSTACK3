@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 
 // Here, we display our Navbar
 export default function Navbar() {
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const isLoggedIn = document.cookie;
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">

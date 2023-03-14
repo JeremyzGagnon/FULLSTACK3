@@ -20,37 +20,37 @@
   // Our route
 
 // Middleware function to validate token
-// const validateToken = async (req, res, next) => {
+const validateToken = async (req, res, next) => {
 
-//   if (req.url === "/login") {
-//     // Skip token verification for /login endpoint
-//     return next();
-//   }
+  if (req.url === "/login") {
+    // Skip token verification for /login endpoint
+    return next();
+  }
 
-//     const token = req.cookies.token;
+    const token = req.cookies.token;
     
-//     if (!token) {
-//       return res.status(400).json({ message: "Token is required" });
-//     }
+    if (!token) {
+      return res.status(400).json({ message: "Token is required" });
+    }
 
-//     let db_connect = dbo.getDb();
+    let db_connect = dbo.getDb();
 
-//     const session = await db_connect.collection("Session").findOne({ session_token: token });
+    const session = await db_connect.collection("Session").findOne({ session_token: token });
 
-//     if (!session) {
-//       return res.status(401).json({ message: "Invalid token" });
-//     }
+    if (!session) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
 
-//     if (session.createdAt < new Date(Date.now() - 86400000)) {
-//       // Remove expired session
-//       await db_connect.collection("Session").deleteOne({ session_token: token });
-//       return res.status(401).json({ message: "Token has expired" });
-//     }
+    if (session.createdAt < new Date(Date.now() - 86400000)) {
+      // Remove expired session
+      await db_connect.collection("Session").deleteOne({ session_token: token });
+      return res.status(401).json({ message: "Token has expired" });
+    }
 
-//     // Modify data object to return email instead of first_name and last_name
-//     res.json({ status: "ok",data: {valid: true, user: { id: session.user, email: session.email}, message: null} });
-//   next();
-// }
+    // Modify data object to return email instead of first_name and last_name
+    res.json({ status: "ok",data: {valid: true, user: { id: session.user, email: session.email}, message: null} });
+  next();
+}
 
 // Attach the middleware to all routes
 // recordRoutes.use(validateToken);
@@ -58,22 +58,6 @@
 
 
   //Login Routes
-
-  // recordRoutes.route("/login").post(async function  (req, response) {
-  //   let db_connect = dbo.getDb();
-  //   const {email,password} = req.body;
-  //   const users = await db_connect.collection("Utilisateurs").findOne({"email":email});
-
-  //   if (!users) {
-  //     return response.status(400).json({ message: "invalid email or password"})
-  //   }
-
-  //   if(password !== users.password){
-  //     return response.json(false)
-  //   }
-
-  //   response.json(true)
-  // });
 
 
   recordRoutes.route("/login").post(async function (req, res) {
@@ -196,35 +180,6 @@
     });
   });
 
-  //Post a transaction in our db
-  // recordRoutes.route("/transactions/:id").post(function (req, response) {
-  //   console.log('SERVER HIT')
-  //   let db_connect = dbo.getDb();
-  //   let agentID = ObjectId( req.params.id );
-  //   let myobj = {
-  //     id: agentID,
-  //     moneyAmount: req.body.moneyAmount,
-  //   };
-  //   db_connect.collection("transactions").insertOne(myobj, function (err, res) {
-  //     if (err) throw err;
-  //     response.json(res);//si la promesse est résolue réponds avec le document ajouter à la db
-  //   });
-  // });
-
-  //fetch the transactions
-
-  // recordRoutes.route("transaction/:id").get(function (req, res) {
-  //   console.log("API HIT")
-  //   let db_connect = dbo.getDb();
-  //   let myquery = { _id: ObjectId( req.params.id )};//convert the id submitted by the client to a MongoDB ObjectId
-  //   db_connect
-  //       .collection("transactions")
-  //       .find(myquery, function (err, result) {
-  //         if (err) throw err;
-  //         res.json(result);
-  //       });
-  // });
-
   recordRoutes.route("/transaction-data/:id").get(function (req, res) {
     console.log("API HIT");
     console.log(req.params.id)
@@ -242,7 +197,6 @@
       });
   });
 
-
   // Post a transaction in our db
   recordRoutes.route("/transaction/:id").post(function (req, response) {
     console.log('SERVER HIT')
@@ -259,20 +213,6 @@
       response.json(res);//si la promesse est résolue réponds avec le document ajouter à la db
     });
   });
-
-
-
-  // recordRoutes.route("/add-transactions/:id").get(function (req, res) {//list everyone
-  //   let db_connect = dbo.getDb("employees");
-  //   db_connect
-  //     .collection("transactions")
-  //     .find( {id: req.params.id} )
-  //     .toArray(function (err, result) {
-  //       if (err) throw err;
-  //       res.json(result);
-  //     });
-  // });
-
 
   // This section will help you update a record by id.
   recordRoutes.route("/update/:id").post(function (req, response) {
