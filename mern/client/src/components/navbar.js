@@ -8,20 +8,12 @@ import { NavLink } from "react-router-dom";
 
 // Here, we display our Navbar
 export default function Navbar() {
-  const isLoggedIn = document.cookie;
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        {isLoggedIn ? (
-          <NavLink className="navbar-brand" to="/">
-          <img src="../../R2Mongo.png"alt="..."></img>
-          </NavLink>
-        ) : (
-          <NavLink className="navbar-brand" to="#">
-        <img style={{"width" : 50 + '%'}} src="../../R2Mongo.png"alt="..."></img>
+        <NavLink className="navbar-brand" to="/">
+          <img src="../../R2Mongo.png" alt="..." />
         </NavLink>
-        )}
-        
         <button
           className="navbar-toggler"
           type="button"
@@ -37,20 +29,9 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-            {isLoggedIn ? (
-               <NavLink className="nav-link" to="/create">
-               Create Agent
-             </NavLink>
-            ) : (
-              <NavLink className="nav-link" to="#">
+              <NavLink className="nav-link" to="/create">
                 Create Agent
               </NavLink>
-            )}
-
-              {/* <NavLink className="nav-link" to="/transaction">
-                Transaction
-              </NavLink> */}
-             
             </li>
           </ul>
         </div>

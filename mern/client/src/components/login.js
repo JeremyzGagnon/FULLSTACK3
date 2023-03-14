@@ -56,6 +56,7 @@ function Login() {
         <div className="row d-flex justify-content-center">
           <div className="col-md-4">
             <form id="loginform" onSubmit={loginSubmit}>
+            <img src="../../R2Mongo.png" style={{ width: "100%", height: "auto", marginBottom: '10%' }}alt="logo" />
               <div className="form-group">
                 <label>Email address</label>
                 <input
