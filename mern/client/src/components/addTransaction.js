@@ -45,7 +45,7 @@ export default function AddTransaction() {
   return (
     <div>
       <h3>Enter the amount of the transaction:</h3>
-      <p>{params.id}</p>
+      {/* <p>{params.id}</p> */}
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label htmlFor="moneyAmount"></label>

@@ -2,9 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const formattedDate = new Intl.DateTimeFormat('en-US', { 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric'
+  }).format(date);
+  return formattedDate;
+}
+
 const Record = (props) => (
   <tr>
-    <td>{props.record.moneyAmount}</td>
+    <td>{props.record.moneyAmount.toLocaleString('en-US', {style: 'currency', currency: 'USD'})}</td>
+    <td>{formatDate(props.record.transactionDate)}</td>
   </tr>
 );
 
@@ -17,7 +29,7 @@ export default function Transaction() {
   // This method fetches the records from the database.
   useEffect(() => {
     async function getRecords() {
-      const response = await fetch(`http://localhost:5000/transaction-data/:id`); // /record in route.js
+      const response = await fetch(`http://localhost:5000/transaction-data/${params.id}`); // /record in route.js
 
       if (!response.ok) {
         const message = `An error occured: ${response.statusText}`;
@@ -51,17 +63,17 @@ export default function Transaction() {
 //   }
   
   // This method will map out the records on the table
-//   function recordList() {
-//     return records.map((record) => {
-//       return (
-//         <Record
-//           record={record}
-//           deleteRecord={() => deleteRecord(record._id)}
-//           key={record._id}
-//         />
-//       );
-//     });
-//   }
+  function recordList() {
+    return records.map((record) => {
+      return (
+        <Record
+          record={record}
+          // deleteRecord={() => deleteRecord(record._id)}
+          key={record._id}
+        />
+      );
+    });
+  }
 
   // This following section will display the table with the records of individuals.
   return (
@@ -74,9 +86,11 @@ export default function Transaction() {
         <thead>
           <tr>
             <th>Past Transactions</th>
+            <th>Date of transaction</th>
+
           </tr>
         </thead>
-        {/* <tbody>{recordList()}</tbody> */}
+        <tbody>{recordList()}</tbody>
       </table>
     </div>
   );

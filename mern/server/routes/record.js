@@ -225,16 +225,17 @@
   //       });
   // });
 
-  recordRoutes.route("transaction-data/:id").get(function (req, res) {
+  recordRoutes.route("/transaction-data/:id").get(function (req, res) {
     console.log("API HIT");
     console.log(req.params.id)
 
     let db_connect = dbo.getDb();
-    let myquery = { _id: ObjectId(req.params.id) };
+    let myquery = { id: ObjectId(req.params.id) };
     db_connect
       .collection("transactions")
       .find(myquery)
       .limit(10) // Add this line to limit the number of documents returned
+      .sort( {transactionDate: -1} )
       .toArray(function (err, result) {
         if (err) throw err;
         res.json(result);
@@ -250,6 +251,7 @@
     let myobj = {
       id: agentID,
       moneyAmount: req.body.moneyAmount,
+      transactionDate: new Date() // Add transactionDate property with current date only
     };
     db_connect.collection("transactions").insertOne(myobj, function (err, res) {
       if (err) throw err;
