@@ -37,10 +37,8 @@ useEffect(() => {
         <Route path="/edit/:id" element={<Edit />} />
         <Route path="/create" element={<Create />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/transaction/:id" element={<Transaction />} />
-        <Route path="/add-transactions/:id" element={<AddTransaction />} />
-
-        
+        <Route path="/transaction-data/:id" element={<Transaction />} />
+        <Route path="/transaction/:id" element={<AddTransaction />} />
       </Routes>
       </div>
     </div>

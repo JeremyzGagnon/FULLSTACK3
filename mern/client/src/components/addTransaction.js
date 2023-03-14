@@ -26,7 +26,7 @@ export default function AddTransaction() {
     // When a post request is sent to the create url, we'll add a new record to the database.
     const newTransaction = { ...form };
     console.log(newTransaction)
-    await fetch(`http://localhost:5000/add-transactions/${params.id}`, {
+    await fetch(`http://localhost:5000/transaction/${params.id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

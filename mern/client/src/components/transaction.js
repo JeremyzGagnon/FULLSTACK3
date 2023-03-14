@@ -17,7 +17,7 @@ export default function Transaction() {
   // This method fetches the records from the database.
   useEffect(() => {
     async function getRecords() {
-      const response = await fetch(`http://localhost:5000/transaction/:id`); // /record in route.js
+      const response = await fetch(`http://localhost:5000/transaction-data/:id`); // /record in route.js
 
       if (!response.ok) {
         const message = `An error occured: ${response.statusText}`;
@@ -67,7 +67,7 @@ export default function Transaction() {
   return (
     <div>
       <h3>Transaction List</h3>
-      <Button onClick={() => navigate(`/add-transactions/${params.id}`)} variant="primary">Add new transaction</Button>{' '}
+      <Button onClick={() => navigate(`/transaction/${params.id}`)} variant="primary">Add new transaction</Button>{' '}
 
       <table className="table table-striped" style={{ marginTop: 20 }}>
 

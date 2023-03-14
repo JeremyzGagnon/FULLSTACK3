@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import Alert from 'react-bootstrap/Alert';
+import Cookies from 'js-cookie';
+
 
 function Login() {
   const [password, setPassword] = useState("");
@@ -52,7 +54,7 @@ function Login() {
   .then(data => {
     if (data.success) {
       const token = data.token;
-      localStorage.setItem("token", token);
+      Cookies.set("token", token, { expires: 1 });
       setShowAlert(true);
       navigate("/");
     } else {
@@ -61,8 +63,7 @@ function Login() {
     }
   })
   .catch(error => console.log('error', error));
-  }
-
+}
 
   return (
     <div className="App">

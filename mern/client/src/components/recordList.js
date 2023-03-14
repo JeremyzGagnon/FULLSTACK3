@@ -25,7 +25,7 @@ const Record = (props) => (
       >
         Delete
       </button> |
-      <Link className="btn btn-link" to={`/transaction/${props.record._id}`}>Transactions</Link>
+      <Link className="btn btn-link" to={`/transaction-data/${props.record._id}`}>Transactions</Link>
 
     </td>
   </tr>
