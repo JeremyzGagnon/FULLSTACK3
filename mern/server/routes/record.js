@@ -21,14 +21,13 @@
 
 // Middleware function to validate token
 const validateToken = async (req, res, next) => {
-
+  console.log("API HIT!!!!")
   if (req.url === "/login") {
     // Skip token verification for /login endpoint
     return next();
   }
-
     const token = req.cookies.token;
-    
+    console.log(token);
     if (!token) {
       return res.status(400).json({ message: "Token is required" });
     }
@@ -36,7 +35,6 @@ const validateToken = async (req, res, next) => {
     let db_connect = dbo.getDb();
 
     const session = await db_connect.collection("Session").findOne({ session_token: token });
-
     if (!session) {
       return res.status(401).json({ message: "Invalid token" });
     }
@@ -54,7 +52,7 @@ const validateToken = async (req, res, next) => {
 
 // Attach the middleware to all routes
 
-// recordRoutes.use(validateToken);
+recordRoutes.use(validateToken);
 
 
 
@@ -204,6 +202,8 @@ const validateToken = async (req, res, next) => {
     let db_connect = dbo.getDb();
     let agentID = ObjectId(req.params.id);
     let moneyAmount = req.body.moneyAmount;
+    // add agent name
+
   
     // Check if moneyAmount is not empty, a valid real number, and greater than 0
     if (!moneyAmount || isNaN(parseFloat(moneyAmount)) || parseFloat(moneyAmount) <= 0) {

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import Alert from 'react-bootstrap/Alert';
 import Cookies from 'js-cookie';
 
-
 function Login() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -33,12 +32,12 @@ function Login() {
       redirect: 'follow'
     };
 
-
   fetch("http://localhost:5000/login", requestOptions)
   .then(response => response.json())
   .then(data => {
     if (data.success) {
       const token = data.token;
+      // console.log(token) //ok
       Cookies.set("token", token, { expires: 1 });
       setShowAlert(true);
       navigate("/");
