@@ -53,6 +53,7 @@ const validateToken = async (req, res, next) => {
 }
 
 // Attach the middleware to all routes
+
 // recordRoutes.use(validateToken);
 
 
@@ -198,21 +199,29 @@ const validateToken = async (req, res, next) => {
   });
 
   // Post a transaction in our db
+
   recordRoutes.route("/transaction/:id").post(function (req, response) {
-    console.log('SERVER HIT')
     let db_connect = dbo.getDb();
-    let agentID = ObjectId( req.params.id );
+    let agentID = ObjectId(req.params.id);
+    let moneyAmount = req.body.moneyAmount;
+  
+    // Check if moneyAmount is not empty, a valid real number, and greater than 0
+    if (!moneyAmount || isNaN(parseFloat(moneyAmount)) || parseFloat(moneyAmount) <= 0) {
+      response.status(400).json({ error: "Invalid moneyAmount" });
+      return;
+    }
+  
     let myobj = {
       id: agentID,
-      moneyAmount: req.body.moneyAmount,
-      transactionDate: new Date() // Add transactionDate property with current date only
+      moneyAmount: moneyAmount,
+      transactionDate: new Date()
     };
     db_connect.collection("transactions").insertOne(myobj, function (err, res) {
       if (err) throw err;
-      // console.log(myobj);
-      response.json(res);//si la promesse est résolue réponds avec le document ajouter à la db
+      response.json(res);
     });
   });
+  
 
   // This section will help you update a record by id.
   recordRoutes.route("/update/:id").post(function (req, response) {

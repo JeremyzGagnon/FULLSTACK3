@@ -35,6 +35,11 @@ export default function RecordList() {
   const navigate = useNavigate();
   const [records, setRecords] = useState([]);
 
+  const createAgentPage = () => {
+    navigate('/create');
+  };
+
+
   // This method fetches the records from the database.
   useEffect(() => {
     async function getRecords() {
@@ -60,10 +65,10 @@ export default function RecordList() {
   //   navigate("/login");
   // };
 
-  const logout = () => {
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    navigate("/login");
-  };
+  // const logout = () => {
+  //   document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  //   navigate("/login");
+  // };
   
 
 
@@ -97,7 +102,7 @@ export default function RecordList() {
   return (
     <div>
       <h3>Record List</h3>
-      <Button onClick={logout} variant="primary">Logout</Button>{' '}
+      <Button onClick={createAgentPage} variant="primary">Create Agent</Button>{' '}
 
       <table className="table table-striped" style={{ marginTop: 20 }}>
 
