@@ -26,28 +26,31 @@ export default function Create() {
   }
 
   // This function will handle the submission.
-  async function onSubmit(e) {//handles the form submission it will sends a POST request to the backend API to create a new record 
+  async function onSubmit(e) {
     e.preventDefault();
-
-    // When a post request is sent to the create url, we'll add a new record to the database.
-    const newPerson = { ...form };
-
-    await fetch("http://localhost:5000/record/add", {//fetch the record/add route in our record.js
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newPerson),
-    })
-    .catch(error => {
-      window.alert(error);
-      return;
-    });
-
-    setForm({first_name: "",last_name: "",email: "",region: "",rating: "",fee: "",sales: "", manager: ""});
-    navigate("/");
+  
+    const confirmed = window.confirm("Are you sure you want to create a new record?");
+  
+    if (confirmed) {
+      const newPerson = { ...form };
+  
+      await fetch("http://localhost:5000/record/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newPerson),
+      })
+      .catch(error => {
+        window.alert(error);
+        return;
+      });
+  
+      setForm({first_name: "",last_name: "",email: "",region: "",rating: "",fee: "",sales: "", manager: ""});
+      navigate("/");
+    }
   }
-//Display the form
+  //Display the form
   // This following section will display the form that takes the input from the user.
   return (
     <div>

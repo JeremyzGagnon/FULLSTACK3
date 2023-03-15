@@ -64,18 +64,22 @@ export default function Edit() {
       sales: form.sales,
       manager: form.manager,
     };
-
-    // This will send a post request to update the data in the database.
-    await fetch(`http://localhost:5000/update/${params.id}`, {//cal the update route
-      method: "POST",
-      body: JSON.stringify(editedPerson),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    });
-    navigate("/");
+  
+    const confirmed = window.confirm('Are you sure you want to update this record?');
+  
+    if (confirmed) {
+      // This will send a post request to update the data in the database.
+      await fetch(`http://localhost:5000/update/${params.id}`, {//cal the update route
+        method: "POST",
+        body: JSON.stringify(editedPerson),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+      navigate("/");
+    }
   }
-
+  
 
   //FORM
   // This following section will display the form that takes input from the user to update the data.

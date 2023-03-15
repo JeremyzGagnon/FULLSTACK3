@@ -20,28 +20,29 @@ export default function AddTransaction() {
   }
 
   // This function will handle the submission.
-  async function onSubmit(e) {//handles the form submission it will sends a POST request to the backend API to create a new record 
+  async function onSubmit(e) {
     e.preventDefault();
-
-    // When a post request is sent to the create url, we'll add a new record to the database.
-    const newTransaction = { ...form };
-    console.log(newTransaction)
-    await fetch(`http://localhost:5000/transaction/${params.id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newTransaction),
-    })
-    .catch(error => {
-      window.alert(error);
-      return;
-    });
-
-    setForm({moneyAmount: "",});
-    navigate(`/transaction-data/${params.id}`);
+    
+    const shouldCreateTransaction = window.confirm("Are you sure you want to create this transaction?");
+  
+    if (shouldCreateTransaction) {
+      const newTransaction = { ...form };
+      await fetch(`http://localhost:5000/transaction/${params.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTransaction),
+      }).catch((error) => {
+        window.alert(error);
+        return;
+      });
+  
+      setForm({ moneyAmount: "" });
+      navigate(`/transaction-data/${params.id}`);
+    }
   }
-//Display the form
+  //Display the form
   return (
     <div>
       <h3>Enter the amount of the transaction:</h3>
