@@ -11,6 +11,8 @@ function Login() {
   const [passwordError, setpasswordError] = useState("");
   const [emailError, setemailError] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+  const [showAlertSuccess, setShowAlertSuccess] = useState(false);
+
   const navigate = useNavigate();
   // const [cookies, setCookie] = useCookies(['token']);
 
@@ -42,11 +44,14 @@ function Login() {
       // console.log(token) //ok
       Cookies.set("token", token, { expires: 1 });
       // setCookie("token", token, { expires: 1 });
-
-      setShowAlert(true);
-      navigate("/");
+      setShowAlertSuccess(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+      
     } else {
-      setemailError("Invalid email or password");
+      setShowAlert(true);
+      // setemailError("Invalid email or password");
       // window.alert("Invalid email or password");
     }
   })
@@ -60,6 +65,8 @@ function Login() {
           <div className="col-md-4">
             <form id="loginform" onSubmit={loginSubmit}>
             <img src="../../R2Mongo.png" style={{ width: "100%", height: "auto", marginBottom: '10%' }}alt="logo" />
+            {showAlert && <Alert variant='danger'>Invalid email or password</Alert>}
+            {showAlertSuccess && <Alert variant='success'>Successfull</Alert>}
               <div className="form-group">
                 <label>Email address</label>
                 <input
@@ -91,7 +98,6 @@ function Login() {
               <button type="submit" className="btn btn-primary">
                 Submit
               </button>
-              {showAlert && <Alert variant='success'>This is a  alert—check it out!</Alert> || !showAlert}
             </form>
           </div>
         </div>
