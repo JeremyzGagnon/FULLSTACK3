@@ -8,10 +8,36 @@ import Create from "./components/create";
 import Login from "./components/login";
 import AddTransaction from "./components/addTransaction";
 import Transaction from "./components/transaction";
+import Cookies from 'js-cookie'
 
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect( () => {
+    if ( location.pathname.startsWith("/")) {
+      let cookie = Cookies.get('token') // => 'value'
+      console.log(cookie);
+      fetch(`http://localhost:5000/validate_token/${cookie}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response => {
+        if (!response.ok) {
+          throw new Error (response.statusText);
+        } else {
+          console.log("token validated");
+        }
+      }))
+      .catch((error) => {
+        console.log(error);
+        navigate("/login");
+      })
+      
+    }
+  }, [location.pathname]);
 
   return (
     <div>

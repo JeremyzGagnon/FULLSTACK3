@@ -1,6 +1,3 @@
-  //This is the file to add,update, delete, find employees in our db
-  const crypto = require('crypto-browserify');
-
   const express = require("express");//import express
   const { v4: uuidv4 } = require('uuid');
 
@@ -19,118 +16,25 @@
 
   // Our route
 // Middleware function to validate token
-const validateToken = async (req, res, next) => {
-  console.log("API HIT!!!!")
-  if (req.url === "/login") {
-    // Skip token verification for /login endpoint
-    return next();
-  }
-    const token = req.cookies;
-    console.log(token);
-    if (!token) {
-      return res.status(400).json({ message: "Token is required" });
-    }
-
+  recordRoutes.route("/validate-token/:cookie").post(async (req, res) => {
     let db_connect = dbo.getDb();
-
-    const session = await db_connect.collection("Session").findOne({ session_token: token });
-    if (!session) {
-      return res.status(401).json({ message: "Invalid token" });
-    }
-
-    if (session.createdAt < new Date(Date.now() - 86400000)) {
-      // Remove expired session
-      await db_connect.collection("Session").deleteOne({ session_token: token });
-      return res.status(401).json({ message: "Token has expired" });
-    }
-
-    // Modify data object to return email instead of first_name and last_name
-    res.json({ status: "ok",data: {valid: true, user: { id: session.user, email: session.email}, message: null} });
-  next();
-}
-
-
-// Attach the middleware to all routes
-// recordRoutes.use(validateToken);
-
-
-  recordRoutes.route("/session").post(async function (req, res) {
-    let db_connect = dbo.getDb();
-    const { email, password } = req.body; //ajouter first_name et last_name?
-    const users = await db_connect.collection("Utilisateurs").findOne({ email });
-
-    if (!users || password !== users.password) {
-      return res.status(400).json({ message: "Invalid email or password" });
-    }
-
-    // Delete all existing sessions for the user
-    await db_connect.collection("Session").deleteMany({ user: users._id });
-
-    // Create a new session token and store it in the Session collection **put this in a /session/:id middleware
-    const session_token = uuidv4();
-    const session = { session_token, user: users._id, email: users.email ,createdAt: new Date() };
-    await db_connect.collection("Session").insertOne(session);
-    return res.json({ success: true, token: session_token });
+    let cookie = req.params.cookie;
+    console.log("TOKEN")
+    console.log(cookie);
+    db_connect
+    .collection("Session")
+    .findOne({session_token: cookie}, function (err, result) {
+      if (err) {
+        res.status(500).json({ status: "error", message: "Failed to validate token" });
+      } else {
+        
+          res.json({status: "ok", data: {valid: false, user: null, message: "Invalid token"}});
+        
+      }
+    });
   });
 
-  // recordRoutes.route("/validate-token").get(async function (req, res) {
-  //   // const token = req.cookies.token; // get token from cookie
-  //   const token = req.cookies.token;
-  //   console.log(token);
-    
-  //   if (!token) {
-  //     return res.status(400).json({ message: "Token is required" });
-  //   }
-
-  //   let db_connect = dbo.getDb();
-
-  //   const session = await db_connect.collection("Session").findOne({ session_token: token });
-
-  //   if (!session) {
-  //     return res.status(401).json({ message: "Invalid token" });
-  //   }
-
-  //   if (session.createdAt < new Date(Date.now() - 86400000)) {
-  //     // Remove expired session
-  //     await db_connect.collection("Session").deleteOne({ session_token: token });
-  //     return res.status(401).json({ message: "Token has expired" });
-  //   }
-
-  //   // Modify data object to return email instead of first_name and last_name
-  //   res.json({ status: "ok",data: {valid: true, user: { id: session.user, email: session.email}, message: null} });
-  // });
-
-  // recordRoutes.route("/validate-token").post(async function (req, res) {
-  //   // console.log("API HIT")
-
-  //   const { token, id, first_name, last_name } = req.body;
-    
-  //   if (!token) {
-  //     return res.status(400).json({ message: "Token is required" });
-  //   }
-
-  //   let db_connect = dbo.getDb();
-
-  //   const session = await db_connect.collection("Session").findOne({ session_token: token });
-  //   console.log(session)
-  //   if (!session) {
-  //     return res.status(401).json({ message: "Invalid token" });
-  //   }
-
-  //   if (session.createdAt < new Date(Date.now() - 86400000)) {
-  //     // Remove expired session
-  //     await db_connect.collection("Session").deleteOne({ session_token: token });
-  //     return res.status(401).json({ message: "Token has expired" });
-  //   }
-  // //message finale token is valid
-  //   res.json({ status: "ok",data: {valid: true, user: {first_name, last_name, id}, message: null} });
-  // });
-
-
-  // /Login Routes
-
   // This section will help you get a list of all the records.
-  
   recordRoutes.route("/record").get(function (req, res) {//list everyone
     let db_connect = dbo.getDb("employees");
     db_connect
@@ -299,32 +203,138 @@ const validateToken = async (req, res, next) => {
     });
   });
 
-  recordRoutes.route("/session/:id").post((req, res) => {
+  recordRoutes.route("/session").post(async function (req, res) {
     let db_connect = dbo.getDb();
-    let myquery = { user: ObjectId(req.params.id) };
-    console.log(req.params.id);
-  
-    db_connect.collection("session").findOne(myquery)
-      .then(session => {
-        console.log(session);
-        if (session) {
-          res.json({
-            status: "ok",
-            data: { "token": session.session_token },
-            message: "session found"
-          });
-        } else {
-          res.status(404).json({ message: "session not found" });
-        }
-      })
-      .catch(err => {
-        res.status(500).json({ message: err.message });
-      });
+    const { email, password } = req.body; //ajouter first_name et last_name?
+    const users = await db_connect.collection("Utilisateurs").findOne({ email });
+
+    if (!users || password !== users.password) {
+      return res.status(400).json({ message: "Invalid email or password" });
+    }
+
+    // Delete all existing sessions for the user
+    await db_connect.collection("Session").deleteMany({ user: users._id });
+
+    // Create a new session token and store it in the Session collection **put this in a /session/:id middleware
+    const session_token = uuidv4();
+    const session = { session_token, user: users._id, email: users.email ,createdAt: new Date() };
+    await db_connect.collection("Session").insertOne(session);
+    return res.json({ success: true, token: session_token });
   });
+
+  // recordRoutes.route("/session/:id").post((req, res) => {
+  //   let db_connect = dbo.getDb();
+  //   let myquery = { user: ObjectId(req.params.id) };
+  //   console.log(req.params.id);
   
-recordRoutes.route("report-data").get(async (req, res) => {
-  let db_connect = dbo.getDb();
+  //   db_connect.collection("session").findOne(myquery)
+  //     .then(session => {
+  //       console.log(session);
+  //       if (session) {
+  //         res.json({
+  //           status: "ok",
+  //           data: { "token": session.session_token },
+  //           message: "session found"
+  //         });
+  //       } else {
+  //         res.status(404).json({ message: "session not found" });
+  //       }
+  //     })
+  //     .catch(err => {
+  //       res.status(500).json({ message: err.message });
+  //     });
+  // });
   
-})
+// recordRoutes.route("report-data").get(async (req, res) => {
+//   let db_connect = dbo.getDb();
+  
+// })
+
+// const validateToken = async (req, res, next) => {
+//   console.log("API HIT!!!!")
+//   if (req.url === "/login") {
+//     // Skip token verification for /login endpoint
+//     return next();
+//   }
+//     const token = req.cookies;
+//     console.log(token);
+//     if (!token) {
+//       return res.status(400).json({ message: "Token is required" });
+//     }
+
+//     let db_connect = dbo.getDb();
+
+//     const session = await db_connect.collection("Session").findOne({ session_token: token });
+//     if (!session) {
+//       return res.status(401).json({ message: "Invalid token" });
+//     }
+
+//     if (session.createdAt < new Date(Date.now() - 86400000)) {
+//       // Remove expired session
+//       await db_connect.collection("Session").deleteOne({ session_token: token });
+//       return res.status(401).json({ message: "Token has expired" });
+//     }
+
+//     // Modify data object to return email instead of first_name and last_name
+//     res.json({ status: "ok",data: {valid: true, user: { id: session.user, email: session.email}, message: null} });
+//   next();
+// }
+
+// Attach the middleware to all routes
+// recordRoutes.use(validateToken);
+
+// recordRoutes.route("/validate-token").get(async function (req, res) {
+  //   // const token = req.cookies.token; // get token from cookie
+  //   let db_connect = dbo.getDb
+  //   const token = req.cookies.token;
+  //   console.log(token);
+    
+  //   if (!token) {
+  //     return res.status(400).json({ message: "Token is required" });
+  //   }
+
+  //   let db_connect = dbo.getDb();
+
+  //   const session = await db_connect.collection("Session").findOne({ session_token: token });
+
+  //   if (!session) {
+  //     return res.status(401).json({ message: "Invalid token" });
+  //   }
+
+  //   if (session.createdAt < new Date(Date.now() - 86400000)) {
+  //     // Remove expired session
+  //     await db_connect.collection("Session").deleteOne({ session_token: token });
+  //     return res.status(401).json({ message: "Token has expired" });
+  //   }
+
+  //   // Modify data object to return email instead of first_name and last_name
+  //   res.json({ status: "ok",data: {valid: true, user: { id: session.user, email: session.email}, message: null} });
+  // });
+
+  // recordRoutes.route("/validate-token").post(async function (req, res) {
+  //   // console.log("API HIT")
+
+  //   const { token, id, first_name, last_name } = req.body;
+    
+  //   if (!token) {
+  //     return res.status(400).json({ message: "Token is required" });
+  //   }
+
+  //   let db_connect = dbo.getDb();
+
+  //   const session = await db_connect.collection("Session").findOne({ session_token: token });
+  //   console.log(session)
+  //   if (!session) {
+  //     return res.status(401).json({ message: "Invalid token" });
+  //   }
+
+  //   if (session.createdAt < new Date(Date.now() - 86400000)) {
+  //     // Remove expired session
+  //     await db_connect.collection("Session").deleteOne({ session_token: token });
+  //     return res.status(401).json({ message: "Token has expired" });
+  //   }
+  // //message finale token is valid
+  //   res.json({ status: "ok",data: {valid: true, user: {first_name, last_name, id}, message: null} });
+  // });
 
   module.exports = recordRoutes;
