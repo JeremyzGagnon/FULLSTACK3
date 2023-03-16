@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 
-
 function formatDate(dateString) {
   const date = new Date(dateString);
   const formattedDate = new Intl.DateTimeFormat('en-US', { 
@@ -23,71 +22,52 @@ const Record = (props) => (
 export default function Transaction() {
   const navigate = useNavigate();
   const [records, setRecords] = useState([]);
+  const [userFirstName, setUserFirstName] = useState("");
+  const [userLastName, setUserLastName] = useState("");
   const params = useParams();
 
-
-  // This method fetches the records from the database.
   useEffect(() => {
-    async function getRecords() {
-      const response = await fetch(`http://localhost:5000/transaction-data/${params.id}`); // /record in route.js
-
+    async function getTransactionData() {
+      const response = await fetch(`http://localhost:5000/transaction-data/${params.id}`);
       if (!response.ok) {
-        const message = `An error occured: ${response.statusText}`;
+        const message = `An error occurred: ${response.statusText}`;
         window.alert(message);
         return;
       }
-
-      const records = await response.json();
-      setRecords(records);
+      const data = await response.json();
+      setRecords(data.transactions);
+      setUserFirstName(data.userFirstName);
+      setUserLastName(data.userLastName);
     }
 
-    getRecords();
+    getTransactionData();
+  }, [params.id]);
 
-    return; 
-  }, [records.length]);
-
-
-
-
-  // This method will delete a record
-//   async function deleteRecord(id) {
-//     const confirmDelete = window.confirm("Are you sure you want to delete this record?");
-//     if (confirmDelete) {
-//       await fetch(`http://localhost:5000/${id}`, {
-//         method: "DELETE"
-//       });
-  
-//       const newRecords = records.filter((el) => el._id !== id);
-//       setRecords(newRecords);
-//     }
-//   }
-  
-  // This method will map out the records on the table
   function recordList() {
     return records.map((record) => {
       return (
         <Record
           record={record}
-          // deleteRecord={() => deleteRecord(record._id)}
           key={record._id}
         />
       );
     });
   }
 
-  // This following section will display the table with the records of individuals.
   return (
     <div>
-      <h3>Transaction List</h3>
-      <Button onClick={() => navigate(`/transaction/${params.id}`)} variant="primary">Add new transaction</Button>{' '}
-
+<div className="d-flex justify-content-between">
+  <h3>Transaction List</h3>
+  <Button onClick={() => navigate(`/transaction/${params.id}`)} variant="primary">Add new transaction</Button>{' '}
+</div>
+<div className="d-flex justify-content-between">
+  <b><p>Agent {userFirstName} {userLastName}'s transactions</p></b>
+</div>
       <table className="table table-striped" style={{ marginTop: 20 }}>
-
         <thead>
           <tr>
             <th>Past Transactions</th>
             <th>Date of transaction</th>
-
           </tr>
         </thead>
         <tbody>{recordList()}</tbody>

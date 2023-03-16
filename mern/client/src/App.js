@@ -91,12 +91,13 @@ const Homepage = () => {
 
   return (
     <div className="homepage-container">
-      <div style={cardStyleRecord} className="homepage-card" onClick={handleNavigateToRecordList}>
-        <h3>Agents Manipulation</h3>
-      </div>
       <div style={cardStyleUpdate} className="homepage-card" onClick={handleNavigateToCreate}>
         <h3>Create an agent</h3>
       </div>
+      <div style={cardStyleRecord} className="homepage-card" onClick={handleNavigateToRecordList}>
+        <h3>Agents Manipulation</h3>
+      </div>
+
     </div>
   );
 };

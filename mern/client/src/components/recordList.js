@@ -102,7 +102,6 @@ export default function RecordList() {
   return (
     <div>
       <h3>Record List</h3>
-      <Button onClick={createAgentPage} variant="primary">Create Agent</Button>{' '}
 
       <table className="table table-striped" style={{ marginTop: 20 }}>
 

@@ -2,6 +2,7 @@
   const crypto = require('crypto-browserify');
 
   const express = require("express");//import express
+  const { v4: uuidv4 } = require('uuid');
 
   // recordRoutes is an instance(object) of the express router.
   // We use it to define our routes.
@@ -10,7 +11,6 @@
 
   // This will help us connect to the database
   const dbo = require("../db/conn");
-
   // This help convert the id from string to ObjectId for the _id.
   const ObjectId = require("mongodb").ObjectId; //imports the id string converter of mongodb
   const cookieParser = require('cookie-parser');
@@ -18,7 +18,6 @@
   recordRoutes.use(cookieParser());
 
   // Our route
-
 // Middleware function to validate token
 const validateToken = async (req, res, next) => {
   console.log("API HIT!!!!")
@@ -26,7 +25,7 @@ const validateToken = async (req, res, next) => {
     // Skip token verification for /login endpoint
     return next();
   }
-    const token = req.cookies.token;
+    const token = req.cookies;
     console.log(token);
     if (!token) {
       return res.status(400).json({ message: "Token is required" });
@@ -50,16 +49,12 @@ const validateToken = async (req, res, next) => {
   next();
 }
 
+
 // Attach the middleware to all routes
-
-recordRoutes.use(validateToken);
-
+// recordRoutes.use(validateToken);
 
 
-  //Login Routes
-
-
-  recordRoutes.route("/login").post(async function (req, res) {
+  recordRoutes.route("/session").post(async function (req, res) {
     let db_connect = dbo.getDb();
     const { email, password } = req.body; //ajouter first_name et last_name?
     const users = await db_connect.collection("Utilisateurs").findOne({ email });
@@ -71,8 +66,8 @@ recordRoutes.use(validateToken);
     // Delete all existing sessions for the user
     await db_connect.collection("Session").deleteMany({ user: users._id });
 
-    // Create a new session token and store it in the Session collection
-    const session_token = crypto.randomBytes(64).toString("hex");
+    // Create a new session token and store it in the Session collection **put this in a /session/:id middleware
+    const session_token = uuidv4();
     const session = { session_token, user: users._id, email: users.email ,createdAt: new Date() };
     await db_connect.collection("Session").insertOne(session);
     return res.json({ success: true, token: session_token });
@@ -117,7 +112,7 @@ recordRoutes.use(validateToken);
   //   let db_connect = dbo.getDb();
 
   //   const session = await db_connect.collection("Session").findOne({ session_token: token });
-
+  //   console.log(session)
   //   if (!session) {
   //     return res.status(401).json({ message: "Invalid token" });
   //   }
@@ -178,26 +173,72 @@ recordRoutes.use(validateToken);
       response.json(res);//si la promesse est résolue réponds avec le document ajouter à la db
     });
   });
+// Gets the 10 earliest transaction
+  // recordRoutes.route("/transaction-data/:id").get(function (req, res) {
+  //   console.log(req.params.id)
 
+  //   let db_connect = dbo.getDb();
+  //   let myquery1 = { _id: ObjectId(req.params.id) };
+  //   let projection = { _id: 0, first_name: 1, last_name: 1 };
+  //   db_connect.collection("records").findOne(myquery1, projection)
+  //     .then(result => {
+  //       let userFirstName = result.first_name;
+  //       let userLastName = result.last_name;
+  //       console.log(userFirstName);
+  //       console.log(userLastName);
+  
+  //       let myquery2 = { id: ObjectId(req.params.id) };
+  //       db_connect
+  //         .collection("transactions")
+  //         .find(myquery2)
+  //         .limit(10) 
+  //         .sort( {transactionDate: -1} )
+  //         .toArray(function (err, result) {
+  //           if (err) throw err;
+  //           res.json(result);
+  //         });
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //       res.status(500).send("Internal server error");
+  //     });
+  // });
+  
   recordRoutes.route("/transaction-data/:id").get(function (req, res) {
-    console.log("API HIT");
-    console.log(req.params.id)
-
+    console.log(req.params.id);
+  
     let db_connect = dbo.getDb();
-    let myquery = { id: ObjectId(req.params.id) };
-    db_connect
-      .collection("transactions")
-      .find(myquery)
-      .limit(10) // Add this line to limit the number of documents returned
-      .sort( {transactionDate: -1} )
-      .toArray(function (err, result) {
-        if (err) throw err;
-        res.json(result);
+    let myquery1 = { _id: ObjectId(req.params.id) };
+    let projection = { _id: 0, first_name: 1, last_name: 1 };
+    db_connect.collection("records").findOne(myquery1, projection)
+      .then(result => {
+        let userFirstName = result.first_name;
+        let userLastName = result.last_name;
+        console.log(userFirstName);
+        console.log(userLastName);
+  
+        let myquery2 = { id: ObjectId(req.params.id) };
+        db_connect
+          .collection("transactions")
+          .find(myquery2)
+          .limit(10) 
+          .sort( {transactionDate: -1} )
+          .toArray(function (err, result) {
+            if (err) throw err;
+            res.json({
+              transactions: result,
+              userFirstName: userFirstName,
+              userLastName: userLastName
+            });
+          });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).send("Internal server error");
       });
   });
-
+  
   // Post a transaction in our db
-
   recordRoutes.route("/transaction/:id").post(function (req, response) {
     let db_connect = dbo.getDb();
     let agentID = ObjectId(req.params.id);
@@ -222,7 +263,6 @@ recordRoutes.use(validateToken);
     });
   });
   
-
   // This section will help you update a record by id.
   recordRoutes.route("/update/:id").post(function (req, response) {
     let db_connect = dbo.getDb();
@@ -258,5 +298,33 @@ recordRoutes.use(validateToken);
       response.json(obj);
     });
   });
+
+  recordRoutes.route("/session/:id").post((req, res) => {
+    let db_connect = dbo.getDb();
+    let myquery = { user: ObjectId(req.params.id) };
+    console.log(req.params.id);
+  
+    db_connect.collection("session").findOne(myquery)
+      .then(session => {
+        console.log(session);
+        if (session) {
+          res.json({
+            status: "ok",
+            data: { "token": session.session_token },
+            message: "session found"
+          });
+        } else {
+          res.status(404).json({ message: "session not found" });
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ message: err.message });
+      });
+  });
+  
+recordRoutes.route("report-data").get(async (req, res) => {
+  let db_connect = dbo.getDb();
+  
+})
 
   module.exports = recordRoutes;

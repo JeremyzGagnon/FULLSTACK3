@@ -76,7 +76,7 @@ export default function Edit() {
           'Content-Type': 'application/json'
         },
       });
-      navigate("/");
+      navigate("/record-list");
     }
   }
   
