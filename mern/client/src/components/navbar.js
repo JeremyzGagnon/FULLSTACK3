@@ -1,19 +1,15 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
-
-// We import bootstrap to make our application look better.
 import "bootstrap/dist/css/bootstrap.css";
-
-// We import NavLink to utilize the react router.
 import { NavLink } from "react-router-dom";
 
 
 
-// Here, we display our Navbar
+// Display our Navbar
 export default function Navbar() {
   const navigate = useNavigate();
-
+  //Deletes the cookie when user logout
     const logout = () => {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     navigate("/login");
@@ -40,9 +36,6 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              {/* <NavLink className="nav-link" to="/create">
-                Create Agent
-              </NavLink> */}
       <Button onClick={logout} variant="danger">Logout</Button>{' '}
 
             </li>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
-
 import Navbar from "./components/navbar";
 import RecordList from "./components/recordList";
 import Edit from "./components/edit";
@@ -16,7 +15,7 @@ const App = () => {
 
   useEffect( () => {
     if ( location.pathname.startsWith("/")) {
-      let cookie = Cookies.get('token') // => 'value'
+      let cookie = Cookies.get('token')
       console.log(cookie);
       if (cookie) {
         fetch(`http://localhost:5000/validate-token?token=${cookie}`, {
@@ -27,7 +26,6 @@ const App = () => {
         })
         .then((response => response.json()))
         .then(data => {
-          // console.log(data.data.valid);
           if (data.status == "error") {
             throw new Error (data.message);
           } else if (data.data.valid == true) {

@@ -1,4 +1,3 @@
-//Logique du formulaire pour la mettre à jour les agents
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 
@@ -15,13 +14,11 @@ export default function Edit() {
   });
   const params = useParams();
   const navigate = useNavigate();
-  // console.log(params.id);
 
 
   useEffect(() => {
     async function fetchData() {
       const id = params.id.toString();
-      // console.log(id)
       const response = await fetch(`http://localhost:5000/record/${params.id.toString()}`);
 
       if (!response.ok) {
@@ -45,7 +42,6 @@ export default function Edit() {
     return;
   }, [params.id, navigate]);
 
-  // These methods will update the state properties.
   function updateForm(value) {
     return setForm((prev) => {
       return { ...prev, ...value };
@@ -68,8 +64,7 @@ export default function Edit() {
     const confirmed = window.confirm('Are you sure you want to update this record?');
   
     if (confirmed) {
-      // This will send a post request to update the data in the database.
-      await fetch(`http://localhost:5000/update/${params.id}`, {//cal the update route
+      await fetch(`http://localhost:5000/update/${params.id}`, {
         method: "POST",
         body: JSON.stringify(editedPerson),
         headers: {
@@ -79,10 +74,6 @@ export default function Edit() {
       navigate("/record-list");
     }
   }
-  
-
-  //FORM
-  // This following section will display the form that takes input from the user to update the data.
   return (
     <div>
       <h3>Update Record</h3>
@@ -94,10 +85,9 @@ export default function Edit() {
             className="form-control"
             id="first_name"
             value={form.first_name}
-            onChange={(e) => updateForm({ first_name: e.target.value })}//calls the function updateForm to update the corresponding state variable
+            onChange={(e) => updateForm({ first_name: e.target.value })}
           />
         </div>
-
         <div className="form-group">
           <label htmlFor="name">Last Name</label>
           <input
@@ -105,11 +95,9 @@ export default function Edit() {
             className="form-control"
             id="last_name"
             value={form.last_name}
-            onChange={(e) => updateForm({ last_name: e.target.value })}//calls the function updateForm to update the corresponding state variable
+            onChange={(e) => updateForm({ last_name: e.target.value })}
           />
         </div>
-
-
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
@@ -120,10 +108,7 @@ export default function Edit() {
             onChange={(e) => updateForm({ email: e.target.value })}
           />
         </div>
-
         <div className="form-group">
-          {/*Radio button for region  */}
-
           <div className="form-check form-check-inline">
             <input
               className="form-check-input"
@@ -160,7 +145,6 @@ export default function Edit() {
             />
             <label htmlFor="regionWest" className="form-check-label">West</label>
           </div>
-
           <div className="form-check form-check-inline">
             <input
               className="form-check-input"
@@ -227,4 +211,3 @@ export default function Edit() {
     </div>
   );
 }
-// /FORM

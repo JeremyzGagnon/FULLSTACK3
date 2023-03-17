@@ -1,8 +1,5 @@
-//Logique pour voir tout les agents/client dans notre bases de donnée
-
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
 
 const Record = (props) => (
   <tr>
@@ -35,11 +32,6 @@ export default function RecordList() {
   const navigate = useNavigate();
   const [records, setRecords] = useState([]);
 
-  const createAgentPage = () => {
-    navigate('/create');
-  };
-
-
   // This method fetches the records from the database.
   useEffect(() => {
     async function getRecords() {
@@ -59,18 +51,6 @@ export default function RecordList() {
 
     return; 
   }, [records.length]);
-
-  // const logout = () => {
-  //   localStorage.removeItem("isLoggedIn");
-  //   navigate("/login");
-  // };
-
-  // const logout = () => {
-  //   document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  //   navigate("/login");
-  // };
-  
-
 
   // This method will delete a record
   async function deleteRecord(id) {
@@ -102,9 +82,7 @@ export default function RecordList() {
   return (
     <div>
       <h3>Record List</h3>
-
       <table className="table table-striped" style={{ marginTop: 20 }}>
-
         <thead>
           <tr>
             <th>First Name</th>

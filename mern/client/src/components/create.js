@@ -1,12 +1,8 @@
-//Logique du formulaire pour la création des agents
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-// import Button from 'react-bootstrap/Button';
-
-
 
 export default function Create() {
-  const [form, setForm] = useState({//to store the values of the form input fields
+  const [form, setForm] = useState({
     first_name: "",
     last_name: "",
     email: "",
@@ -18,14 +14,12 @@ export default function Create() {
   });
   const navigate = useNavigate();
 
-  // These methods will update the state properties.
-  function updateForm(value) {//defined to update the form state variable with the input values when they change
+  function updateForm(value) {
     return setForm((prev) => {
       return { ...prev, ...value };
     });
   }
 
-  // This function will handle the submission.
   async function onSubmit(e) {
     e.preventDefault();
   
@@ -50,8 +44,6 @@ export default function Create() {
       navigate("/");
     }
   }
-  //Display the form
-  // This following section will display the form that takes the input from the user.
   return (
     <div>
       <h3>Create New Record</h3>
@@ -63,7 +55,7 @@ export default function Create() {
             className="form-control"
             id="first_name"
             value={form.first_name}
-            onChange={(e) => updateForm({ first_name: e.target.value })}//calls the function updateForm to update the corresponding state variable
+            onChange={(e) => updateForm({ first_name: e.target.value })}
           />
         </div>
 
@@ -74,7 +66,7 @@ export default function Create() {
             className="form-control"
             id="last_name"
             value={form.last_name}
-            onChange={(e) => updateForm({ last_name: e.target.value })}//calls the function updateForm to update the corresponding state variable
+            onChange={(e) => updateForm({ last_name: e.target.value })}
           />
         </div>
 
@@ -91,7 +83,6 @@ export default function Create() {
         </div>
 
         <div className="form-group">
-          {/*Radio button for region  */}
 
           <div className="form-check form-check-inline">
             <input
@@ -186,7 +177,6 @@ export default function Create() {
             <option value={true}>Manager</option>
             </select>
         </div>
-        
         <div className="form-group">
           <input
             type="submit"

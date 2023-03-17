@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 
+//Format of the date displayed in our table
 function formatDate(dateString) {
   const date = new Date(dateString);
   const formattedDate = new Intl.DateTimeFormat('en-US', { 

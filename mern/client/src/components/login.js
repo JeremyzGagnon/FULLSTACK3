@@ -3,7 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import Alert from 'react-bootstrap/Alert';
 import Cookies from 'js-cookie';
-// import { useCookies } from 'react-use-cookie';
 
 function Login() {
   const [password, setPassword] = useState("");
@@ -12,15 +11,13 @@ function Login() {
   const [emailError, setemailError] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertSuccess, setShowAlertSuccess] = useState(false);
-
   const navigate = useNavigate();
-  // const [cookies, setCookie] = useCookies(['token']);
 
   const loginSubmit = (e) => {
     e.preventDefault();
     logMe();
   };
-
+  
   const logMe = () => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -41,27 +38,20 @@ function Login() {
   .then(data => {
     if (data.success) {
       const token = data.token;
-      // console.log(token) //ok
       Cookies.set("token", token, { expires: 1 });
-      // setCookie("token", token, { expires: 1 });
       setShowAlertSuccess(true);
       setTimeout(() => {
         navigate("/");
       }, 1000);
-      
     } else {
       setShowAlert(true);
       setTimeout(() => {
         setShowAlert(false);
       }, 5000);
-
-      // setemailError("Invalid email or password");
-      // window.alert("Invalid email or password");
     }
   })
   .catch(error => console.log('error', error));
 }
-
   return (
     <div className="App">
       <div className="container">
