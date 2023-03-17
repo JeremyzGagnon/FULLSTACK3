@@ -53,7 +53,7 @@ function Login() {
       setShowAlert(true);
       setTimeout(() => {
         setShowAlert(false);
-      }, 2000);
+      }, 5000);
 
       // setemailError("Invalid email or password");
       // window.alert("Invalid email or password");

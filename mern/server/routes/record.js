@@ -16,9 +16,9 @@
 
   // Our route
 // Middleware function to validate token
-  recordRoutes.route("/validate-token/:cookie").post(async (req, res) => {
+  recordRoutes.route("/validate-token").get(async (req, res) => {
     let db_connect = dbo.getDb();
-    let cookie = req.params.cookie;
+    let cookie = req.query.token;
     console.log("TOKEN")
     console.log(cookie);
     db_connect
@@ -26,12 +26,12 @@
     .findOne({session_token: cookie}, function (err, result) {
       if (err) {
         res.status(500).json({ status: "error", message: "Failed to validate token" });
+      } else if (!result) {
+        res.json({status: "ok", data: {valid: false, user: null, message: "Invalid token"}});
       } else {
-        
-          res.json({status: "ok", data: {valid: false, user: null, message: "Invalid token"}});
-        
+        res.json({status: "ok", data: {valid: true, user: result.user, message: "Valid token"}});
       }
-    });
+          });
   });
 
   // This section will help you get a list of all the records.

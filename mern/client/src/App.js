@@ -18,24 +18,29 @@ const App = () => {
     if ( location.pathname.startsWith("/")) {
       let cookie = Cookies.get('token') // => 'value'
       console.log(cookie);
-      fetch(`http://localhost:5000/validate_token/${cookie}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response => {
-        if (!response.ok) {
-          throw new Error (response.statusText);
-        } else {
-          console.log("token validated");
-        }
-      }))
-      .catch((error) => {
-        console.log(error);
+      if (cookie) {
+        fetch(`http://localhost:5000/validate-token?token=${cookie}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response => {
+          console.log(response)
+          if (!response.ok) {
+            throw new Error (response.statusText);
+          } else {
+            console.log("token validated");
+          }
+        }))
+        .catch((error) => {
+          console.log(error);
+          navigate("/login");
+        });
+      } else {
         navigate("/login");
-      })
-      
+      }
+            
     }
   }, [location.pathname]);
 
