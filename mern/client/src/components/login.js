@@ -51,6 +51,10 @@ function Login() {
       
     } else {
       setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 2000);
+
       // setemailError("Invalid email or password");
       // window.alert("Invalid email or password");
     }
@@ -66,7 +70,7 @@ function Login() {
             <form id="loginform" onSubmit={loginSubmit}>
             <img src="../../R2Mongo.png" style={{ width: "100%", height: "auto", marginBottom: '10%' }}alt="logo" />
             {showAlert && <Alert variant='danger'>Invalid email or password</Alert>}
-            {showAlertSuccess && <Alert variant='success'>Successfull</Alert>}
+            {showAlertSuccess && <Alert variant='success'>Successfull Login</Alert>}
               <div className="form-group">
                 <label>Email address</label>
                 <input
