@@ -25,14 +25,18 @@ const App = () => {
             "Content-Type": "application/json",
           },
         })
-        .then((response => {
-          console.log(response)
-          if (!response.ok) {
-            throw new Error (response.statusText);
-          } else {
+        .then((response => response.json()))
+        .then(data => {
+          // console.log(data.data.valid);
+          if (data.status == "error") {
+            throw new Error (data.message);
+          } else if (data.data.valid == true) {
             console.log("token validated");
+          } else if (data.data.valid == false) {
+            console.log("Invalid token");
+            navigate("/login");
           }
-        }))
+        })
         .catch((error) => {
           console.log(error);
           navigate("/login");
@@ -40,6 +44,7 @@ const App = () => {
       } else {
         navigate("/login");
       }
+      
             
     }
   }, [location.pathname]);
