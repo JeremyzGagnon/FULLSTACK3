@@ -72,36 +72,6 @@
       response.json(res);//si la promesse est résolue réponds avec le document ajouter à la db
     });
   });
-// Gets the 10 earliest transaction
-  // recordRoutes.route("/transaction-data/:id").get(function (req, res) {
-  //   console.log(req.params.id)
-
-  //   let db_connect = dbo.getDb();
-  //   let myquery1 = { _id: ObjectId(req.params.id) };
-  //   let projection = { _id: 0, first_name: 1, last_name: 1 };
-  //   db_connect.collection("records").findOne(myquery1, projection)
-  //     .then(result => {
-  //       let userFirstName = result.first_name;
-  //       let userLastName = result.last_name;
-  //       console.log(userFirstName);
-  //       console.log(userLastName);
-  
-  //       let myquery2 = { id: ObjectId(req.params.id) };
-  //       db_connect
-  //         .collection("transactions")
-  //         .find(myquery2)
-  //         .limit(10) 
-  //         .sort( {transactionDate: -1} )
-  //         .toArray(function (err, result) {
-  //           if (err) throw err;
-  //           res.json(result);
-  //         });
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       res.status(500).send("Internal server error");
-  //     });
-  // });
   
   recordRoutes.route("/transaction-data/:id").get(function (req, res) {
     console.log(req.params.id);
@@ -218,10 +188,4 @@
     return res.json({ success: true, token: session_token });
   });
   
-// recordRoutes.route("report-data").get(async (req, res) => {
-//   let db_connect = dbo.getDb();
-  
-// })
-
-
   module.exports = recordRoutes;
